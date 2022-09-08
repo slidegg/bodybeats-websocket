@@ -10,8 +10,10 @@ import json
 
 async def echo(websocket):
     async for message in websocket:
-        await websocket.send(json.dumps(message, separators=(',')))
-        # await websocket.send(message)
+        dictData = json.load(message)
+        # await websocket.send(json.dumps(message, separators=(',', ':')))
+        await websocket.send(dictData)
+        await websocket.send(dictData['name'])
 
 
 async def main():
