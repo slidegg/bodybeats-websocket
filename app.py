@@ -3,6 +3,7 @@
 import asyncio
 import signal
 import os
+import redis
 import websockets
 import json
 
@@ -16,6 +17,7 @@ async def hello(websocket):
     name = await websocket.recv()
     greeting = f"Hello {name}!"
     await websocket.send(greeting)
+    await echo
 
 async def main():
     # Set the stop condition when receiving SIGTERM.
@@ -24,7 +26,7 @@ async def main():
     loop.add_signal_handler(signal.SIGTERM, stop.set_result, None)
 
     async with websockets.serve(
-        echo,
+        hello,
         host="",
         port=int(os.environ["PORT"]),
     ):
