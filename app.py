@@ -74,7 +74,7 @@ async def start(websocket):
     """
     # Initialize a music session, the set of WebSocket connections
     # receiving moves from this game, and secret access tokens.
-    await websocket.send('The game starts!')
+    await websocket.send('The game starts now...')
     
     game = bodybeats()
     connected = {websocket}
@@ -141,6 +141,7 @@ async def handler(websocket):
         # Second player joins an existing game.
         await join(websocket, event["join"])
     else:
+        await websocket.send('Starting the game...')
         # First player starts a new game.
         await start(websocket)
 
