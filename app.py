@@ -5,12 +5,14 @@ import signal
 import os
 
 import websockets
+import json
 
 
 async def echo(websocket):
     async for message in websocket:
-        if (message == 'slide'):
-            message = 'slide kapsis_7'
+        with open(message) as json_data:
+            data = json.load(json_data)
+            await websocket.send("Type:", type(data))
         await websocket.send(message)
 
 
