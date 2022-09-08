@@ -135,7 +135,7 @@ async def handler(websocket):
     # Receive and parse the "init" event.
     message = await websocket.recv()
     event = json.loads(str(message))
-    assert event["type"] == "init"
+    # assert event["type"] == "init"
 
     if "join" in event:
         # Second player joins an existing game.
