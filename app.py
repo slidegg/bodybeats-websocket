@@ -92,7 +92,7 @@ async def start(websocket):
             "type": "init",
             "join": join_key
         }
-        await websocket.send('Join key: ' + event['join'])
+        await websocket.send('Join key: ' + str(join_key))
         await websocket.send('Insert instrument...')
         instrument = await websocket.recv()
         # Receive and process sounds from the first player.
