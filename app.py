@@ -9,7 +9,8 @@ import websockets
 
 async def echo(websocket):
     async for message in websocket:
-        await websocket.send(websocket)
+        print('slide')
+        await websocket.send(message)
 
 
 async def main():
