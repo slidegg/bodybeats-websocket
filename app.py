@@ -8,7 +8,7 @@ import json
 import secrets
 import random
 
-from bodybeats import PLAYER1, PLAYER2, bodybeats
+from bodybeats import bodybeats
 
 JOIN = {}
 
@@ -92,9 +92,11 @@ async def start(websocket):
             "type": "init",
             "join": join_key
         }
-        await websocket.send(json.dumps(event))
+        await websocket.send('Join key: ' + event['join'])
+        await websocket.send('Insert instrument...')
+        instrument = await websocket.recv()
         # Receive and process sounds from the first player.
-        await play(websocket, game, PLAYER1, connected)
+        await play(websocket, game, instrument, connected)
     finally:
         del JOIN[join_key]
 
@@ -106,7 +108,7 @@ async def join(websocket, join_key):
     """
     # Find the bodybeats game.
     try:
-        game, connected = JOIN[join_key]
+        game, connected = JOIN[int(join_key)]
     except KeyError:
         await error(websocket, "Beat not found :(")
         return
@@ -114,8 +116,10 @@ async def join(websocket, join_key):
     # Register to receive moves from this game.
     connected.add(websocket)
     try:
+        await websocket.send('Insert instrument...')
+        instrument = await websocket.recv()
         # Receive and process moves from the second player.
-        await play(websocket, game, PLAYER2, connected)
+        await play(websocket, game, instrument, connected)
     finally:
         connected.remove(websocket)
 
@@ -125,7 +129,8 @@ async def handler(websocket):
     Handle a connection and dispatch it according to who is connecting.
     
     Expects a json like
-    {"type": "init", "join": "join_key"}
+    {"type": "init", "join": join_key}
+    join_key needs to be int
 
     or for new game
     { "type": "init" } 

@@ -1,6 +1,6 @@
-__all__ = ["PLAYER1", "PLAYER2", "bodybeats"]
+# __all__ = ["PLAYER1", "PLAYER2", "bodybeats"]
 
-PLAYER1, PLAYER2 = "drums", "piano"
+# PLAYER1, PLAYER2 = "drums", "piano"
 
 
 class bodybeats:
@@ -10,10 +10,8 @@ class bodybeats:
 
     def __init__(self):
         self.moves = ''
-        self.instrument = None
-        self.winner = None
 
-    def play(self, player, sound):
+    def play(self, instrument, sound):
         """
         Play moves.
 
