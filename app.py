@@ -3,7 +3,6 @@
 import asyncio
 import signal
 import os
-import redis
 import websockets
 import json
 
