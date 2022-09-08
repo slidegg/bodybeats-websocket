@@ -17,7 +17,6 @@ async def hello(websocket):
     name = await websocket.recv()
     greeting = f"Hello {name}!"
     await websocket.send(greeting)
-    echo
 
 async def main():
     # Set the stop condition when receiving SIGTERM.
@@ -27,6 +26,7 @@ async def main():
 
     async with websockets.serve(
         hello,
+        echo,
         host="",
         port=int(os.environ["PORT"]),
     ):
