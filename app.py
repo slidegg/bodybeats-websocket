@@ -46,6 +46,8 @@ async def play(websocket, game, player, connected):
     {"type": "play", "sound": "messageFromApp"}
 
     """
+    await websocket.send('Joined to the session! Now lets rock!')
+
     async for message in websocket:
         # Parse a "play" event from the UI.
         event = json.loads(message)
@@ -59,14 +61,6 @@ async def play(websocket, game, player, connected):
             "move": move
         }
         websockets.broadcast(connected, json.dumps(event))
-
-        # If move is winning, send a "win" event.
-        # if game.winner is not None:
-        #     event = {
-        #         "type": "win",
-        #         "player": game.winner,
-        #     }
-        #     websockets.broadcast(connected, json.dumps(event))
 
 
 
@@ -93,7 +87,7 @@ async def start(websocket):
             "join": join_key
         }
         await websocket.send('Join key: ' + str(join_key))
-        await websocket.send('Insert instrument...')
+        await websocket.send('Type your instrument...')
         instrument = await websocket.recv()
         # Receive and process sounds from the first player.
         await play(websocket, game, instrument, connected)
@@ -110,13 +104,13 @@ async def join(websocket, join_key):
     try:
         game, connected = JOIN[int(join_key)]
     except KeyError:
-        await error(websocket, "Beat not found :(")
+        await error(websocket, "Session not found :(")
         return
 
     # Register to receive moves from this game.
     connected.add(websocket)
     try:
-        await websocket.send('Insert instrument...')
+        await websocket.send('Joined! Type your instrument...')
         instrument = await websocket.recv()
         # Receive and process moves from the second player.
         await play(websocket, game, instrument, connected)
@@ -144,6 +138,7 @@ async def handler(websocket):
 
     if "join" in event:
         # Second player joins an existing game.
+        await websocket.send('Joining the game...')
         await join(websocket, event["join"])
     else:
         await websocket.send('Starting the game...')
