@@ -13,8 +13,10 @@ async def echo(websocket):
         await websocket.send(message)
 
 async def hello(websocket):
+    await websocket.send('hey dude whats ur name?')
+    
     name = await websocket.recv()
-    print(f"<<< {name}")
+    
 
     greeting = f"Hello {name}!"
 
