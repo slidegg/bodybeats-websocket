@@ -6,6 +6,7 @@ import os
 import websockets
 import json
 import secrets
+import random
 
 from bodybeats import PLAYER1, PLAYER2, bodybeats
 
@@ -41,19 +42,21 @@ async def play(websocket, game, player, connected):
     """
     Receive and process moves from a player.
 
+    Expects json like
+    {"type": "play", "sound": "messageFromApp"}
+
     """
     async for message in websocket:
         # Parse a "play" event from the UI.
         event = json.loads(message)
         assert event["type"] == "play"
-        column = event["column"]
+        move = event["sound"]
 
         # Send a "play" event to update the UI.
         event = {
             "type": "play",
             "player": player,
-            "column": column,
-            "row": row,
+            "move": move
         }
         websockets.broadcast(connected, json.dumps(event))
 
@@ -79,7 +82,7 @@ async def start(websocket):
     game = bodybeats()
     connected = {websocket}
 
-    join_key = secrets.token_urlsafe(12)
+    join_key = random.randint(1111,9999)
     JOIN[join_key] = game, connected
 
     try:
@@ -90,7 +93,7 @@ async def start(websocket):
             "join": join_key
         }
         await websocket.send(json.dumps(event))
-        # Receive and process moves from the first player.
+        # Receive and process sounds from the first player.
         await play(websocket, game, PLAYER1, connected)
     finally:
         del JOIN[join_key]
@@ -120,15 +123,12 @@ async def join(websocket, join_key):
 async def handler(websocket):
     """
     Handle a connection and dispatch it according to who is connecting.
+    
     Expects a json like
-    {"event": { 
-        "type": "init",
-         "join": "join_key"
-         }
-    }
+    {"type": "init", "join": "join_key"}
 
     or for new game
-    { "event": { "type": "init" } }
+    { "type": "init" } 
 
     """
     await websocket.send('You are connected to the websocket! Now provide the event!')

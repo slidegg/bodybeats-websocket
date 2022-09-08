@@ -13,14 +13,14 @@ class bodybeats:
         self.instrument = None
         self.winner = None
 
-    def play(self, player, move):
+    def play(self, player, sound):
         """
         Play moves.
 
-        Returns the move string.
+        Returns the sound string.
 
         """
 
-        self.moves = move
+        self.sound = sound
 
-        return move
+        return sound
