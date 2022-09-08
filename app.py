@@ -134,8 +134,7 @@ async def handler(websocket):
     await websocket.send('You are connected to the websocket! Now provide the event!')
     # Receive and parse the "init" event.
     message = await websocket.recv()
-    await websocket.send(str(type(message)))
-    event = json.loads(message)
+    event = json.loads(str(message))
     assert event["type"] == "init"
 
     if "join" in event:
