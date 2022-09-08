@@ -12,7 +12,7 @@ async def echo(websocket):
     async for message in websocket:
         dictData = json.load(message)
         # await websocket.send(json.dumps(message, separators=(',', ':')))
-        await websocket.send(dictData)
+        await websocket.send(dictData['name'])
         # await websocket.send(dictData['name'])
 
 
