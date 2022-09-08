@@ -9,7 +9,8 @@ import websockets
 
 async def echo(websocket):
     async for message in websocket:
-        print('slide')
+        if (message == 'slide'):
+            message = 'slide kapsis_7'
         await websocket.send(message)
 
 
