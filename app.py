@@ -10,12 +10,16 @@ import json
 
 async def echo(websocket):
     async for message in websocket:
-        # dictData = json.load(message)
-        # dictData = json.dumps(message, separators=(',', ':'))
-        # await websocket.send(json.dumps(message, separators=(',', ':')))
         await websocket.send(message)
-        # await websocket.send(dictData['name'])
 
+async def hello(websocket):
+    name = await websocket.recv()
+    print(f"<<< {name}")
+
+    greeting = f"Hello {name}!"
+
+    await websocket.send(greeting)
+    print(f">>> {greeting}")
 
 async def main():
     # Set the stop condition when receiving SIGTERM.
@@ -24,7 +28,7 @@ async def main():
     loop.add_signal_handler(signal.SIGTERM, stop.set_result, None)
 
     async with websockets.serve(
-        echo,
+        hello,
         host="",
         port=int(os.environ["PORT"]),
     ):
