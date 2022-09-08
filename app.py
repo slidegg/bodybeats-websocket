@@ -134,9 +134,9 @@ async def handler(websocket):
     await websocket.send('You are connected to the websocket! Now provide the event!')
     # Receive and parse the "init" event.
     message = await websocket.recv()
-    await websocket.send(type(message))
     event = json.loads(message)
-    assert event["type"] == "init"
+    # assert event["type"] == "init"
+    await websocket.send(type(message))
 
     if "join" in event:
         # Second player joins an existing game.
