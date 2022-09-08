@@ -74,6 +74,8 @@ async def start(websocket):
     """
     # Initialize a music session, the set of WebSocket connections
     # receiving moves from this game, and secret access tokens.
+    await websocket.send('The game starts!')
+    
     game = bodybeats()
     connected = {websocket}
 
@@ -118,8 +120,18 @@ async def join(websocket, join_key):
 async def handler(websocket):
     """
     Handle a connection and dispatch it according to who is connecting.
+    Expects a json like
+    {"event": { 
+        "type": "init",
+         "join": "join_key"
+         }
+    }
+
+    or for new game
+    { "event": { "type": "init" } }
 
     """
+    await websocket.send('You are connected to the websocket! Now provide the event!')
     # Receive and parse the "init" event.
     message = await websocket.recv()
     event = json.loads(message)
