@@ -86,6 +86,7 @@ async def start(websocket):
             "type": "init",
             "join": join_key
         }
+        # send the join key
         await websocket.send(str(join_key))
         await websocket.send('Type your instrument...')
         instrument = await websocket.recv()

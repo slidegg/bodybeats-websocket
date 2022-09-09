@@ -5,11 +5,7 @@
 **The wss address is:   ```wss://bodybeats.herokuapp.com/ ```**
 
 ### Process
-* First a player need to join a game. If he's the first player who creates the session then he needs to pass a json like this
-    ```
-    { "type": "init" }
-    ```
-    OR if he wants to join to another game then a string with the join key.
+* First a player need to join a game. If he's the first player who creates the session then he needs to pass a string with the word "init" OR if he wants to join to another game then a string with the join key (4 digit pin code).
 
 
 * After that every player need to pass the name of the instrument as a simple string.
