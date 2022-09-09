@@ -132,7 +132,7 @@ async def handler(websocket):
     event = json.loads(str(message))
     # assert event["type"] == "init"
 
-    if "init" in event:
+    if "type" in event:
         await websocket.send('Starting the game...')
         # First player starts a new game.
         await start(websocket)
