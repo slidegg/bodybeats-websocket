@@ -139,7 +139,7 @@ async def handler(websocket):
     else:
         # Second player joins an existing game.
         await websocket.send('Joining the game...')
-        await join(websocket, event)
+        await join(websocket, message)
         
 
 async def main():
