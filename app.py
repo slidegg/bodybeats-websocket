@@ -5,7 +5,6 @@ import signal
 import os
 import websockets
 import json
-import secrets
 import random
 
 from bodybeats import bodybeats
@@ -130,8 +129,6 @@ async def handler(websocket):
     await websocket.send('You are connected to the websocket! Now provide the event!')
     # Receive and parse the "init" event.
     message = await websocket.recv()
-    # event = json.loads(str(message))
-    # assert event["type"] == "init"
 
     if message  == 'init':
         await websocket.send('Starting the game...')
