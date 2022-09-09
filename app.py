@@ -129,10 +129,10 @@ async def handler(websocket):
     await websocket.send('You are connected to the websocket! Now provide the event!')
     # Receive and parse the "init" event.
     message = await websocket.recv()
-    event = json.loads(str(message))
+    # event = json.loads(str(message))
     # assert event["type"] == "init"
 
-    if "type" in event:
+    if message  == 'init':
         await websocket.send('Starting the game...')
         # First player starts a new game.
         await start(websocket)
