@@ -132,15 +132,15 @@ async def handler(websocket):
     event = json.loads(str(message))
     # assert event["type"] == "init"
 
-    if "join" in event:
-        # Second player joins an existing game.
-        await websocket.send('Joining the game...')
-        await join(websocket, event)
-    else:
+    if "init" in event:
         await websocket.send('Starting the game...')
         # First player starts a new game.
         await start(websocket)
-
+    else:
+        # Second player joins an existing game.
+        await websocket.send('Joining the game...')
+        await join(websocket, event)
+        
 
 async def main():
     # Set the stop condition when receiving SIGTERM.
