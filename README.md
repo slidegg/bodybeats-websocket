@@ -9,11 +9,7 @@
     ```
     { "type": "init" }
     ```
-    OR if he wants to join to another game then a json like this
-    ```
-    {"type": "init", "join": join_key}
-    ```
-    note: join_key needs to be integer.
+    OR if he wants to join to another game then a string with the join key.
 
 
 * After that every player need to pass the name of the instrument as a simple string.

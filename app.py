@@ -122,11 +122,7 @@ async def handler(websocket):
     """
     Handle a connection and dispatch it according to who is connecting.
     
-    Expects a json like
-    {"type": "init", "join": join_key}
-    join_key needs to be int
-
-    or for new game
+    Expects a join key as a string or for new game
     { "type": "init" } 
 
     """
@@ -139,7 +135,7 @@ async def handler(websocket):
     if "join" in event:
         # Second player joins an existing game.
         await websocket.send('Joining the game...')
-        await join(websocket, event["join"])
+        await join(websocket, event)
     else:
         await websocket.send('Starting the game...')
         # First player starts a new game.
